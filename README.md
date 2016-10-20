@@ -34,7 +34,7 @@ PHASE1: Building
 - `name` = put the name of the program;
 - `nparam` = number of variable `e`;
 - `[str,vars]  = build_sdpvar(nvar,nparam);eval(str);vars = eval(vars);` build the variables with Yalmip parser
-- `q` = here put the `l(x,e)` program with the symbols `x_i` with i=1,...,nvar for `x`, and `x_j` with j = nvar+1,...,nvar+nparam for `e`;
+- `q` = here put the `l(x,e)` program with the symbols `x_i` with `i=1,...,nvar` for `x`, and `x_j` with `j = nvar+1,...,nvar+nparam`  for `e`;
 - interval=[[one line for each interval of `x` then `e`]];
 - `qsdp = box_norm(q,vars,interval);` compute the normalization
 - `[powers,coefficients] = getexponentbase(qsdp,vars);` polynomial parsing with Yalmip
