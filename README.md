@@ -47,12 +47,17 @@ PHASE1: Building
 - Build the path and the models files (if you want)
 
 	path = [name '/' name];
+	
 	mkdir(name);
+	
 	dlmwrite([path '_g.dat'],G);
+	
 	dlmwrite([path '_s.dat'],system_info);
+	
 	dlmwrite([path '_c.dat'],c);
+	
 	dlmwrite([path '_p.dat'],p);
-
+	
 (2) compute the roundoff error:
 
 - read the file product by the above script with `[F,I,J ,G ,n,d,k] = read_examples(program_name,"MAX");` (/!\be careful: if you want to work on a single file you need to do the conversion from array to cells as done in `read_examples`)
