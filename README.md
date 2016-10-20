@@ -81,7 +81,7 @@ or by downloading the ZIP archive at https://github.com/roccaa/FPKriSten.git
 
 In the matlab command window, add to path the `Cplex`( in the  `matlab/x86-64_linux` directory if you are with linux 64 ) and `Yalmip` librairies.
 
-Add to path the directories `Round_error` and `SBSOS` (dot not `SBSOS` from another source as the code files as been modified in this present version):
+Add to path the directories `Round_error` and `SBSOS` (dot not use `SBSOS` from another source as the code files as been modified in this present version):
 
 	$ addpath(genpath(Round_error/));addpath(genpath(SBSOS/));
 	
