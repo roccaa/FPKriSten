@@ -1,6 +1,6 @@
 # FPKriSten
 ## Description
-`FPKriSten` is a Matlab toolbox for computation of roundoff error bounds using Bernstein expansions.
+`FPKriSten` is a Matlab toolbox for computation of roundoff error bounds using sparse Krivine-Stengle representations.
 
 We consider the roundoff error r of a program implementing a polynomial function f(x):
 
