@@ -56,7 +56,7 @@ Build the path and the models files (if you want):
 	
 (2) compute the roundoff error:
 
-- read the file product by the above script with `[F,I,J ,G ,n,d,k] = read_examples(program_name,"MAX");` (/!\be careful: if you want to work on a single file you need to do the conversion from array to cells as done in `read_examples`)
+- read the file product by the above script with `[F,I,J ,G ,n,d,k] = read_examples(program_name,"MAX");`
 - execute [ bound,build_time,solving_time ] = solve_examples( F,G,I,J,d,k,tag);, where `bound` will be the roundoff error proportionnal to `epsilon` the machine precision.
 
 
