@@ -44,18 +44,14 @@ PHASE1: Building
 - `[I,J] = build_box_sparcity(nvar,nparam);`I and J sparcity pattern specific to this problem
 - `system_info = [n complex_sparse];` build an option arry (mandatory)
 - `G = create_unitBox(n);` build a unit box (mandatory)
-- Build the path and the models files (if you want)
+
+Build the path and the models files (if you want):
 
 	path = [name '/' name];
-	
 	mkdir(name);
-	
 	dlmwrite([path '_g.dat'],G);
-	
 	dlmwrite([path '_s.dat'],system_info);
-	
 	dlmwrite([path '_c.dat'],c);
-	
 	dlmwrite([path '_p.dat'],p);
 	
 (2) compute the roundoff error:
