@@ -2,13 +2,13 @@
 ## Description
 `FPKriSten` is a Matlab toolbox for computation of roundoff error bounds using Bernstein expansions.
 
-We consider the roundoff error of a program implementing a polynomail function f(x) given by:
+We consider the roundoff error r of a program implementing a polynomial function f(x):
 
-			r(x,e) = l(x,e)+h(x,e)
+			r(x,e) = l(x, e) + h(x, e)
 
-with `l(x,e)` the part of `r(x,e)` linear w.r.t. `e` and `h(x,e)` the part  of `r(x,e)` non-linear w.r.t. `e`.
+with `l(x, e)` the part of `r(x, e)` linear w.r.t. `e` and `h(x, e)` the part  of `r(x, e)` non-linear w.r.t. `e`.
 
-`FPKriSten` computes an upper bound of `|l(x,e)|` for `x` lying in a box, and `e` being enclose by a given machine epsilon. 
+`FPKriSten` computes an upper bound of `|l(x, e)|` with `x` lying in a box, and `e` being bounded by a given machine `epsilon`. 
 
 
 For instance, one can consider f(x) = x1^3 + (3/4) x1 x2^2, with x1 in [-1, 1] and x2 in [-2, 2].
@@ -23,27 +23,27 @@ FPKriSten has been tested with `Matlab2015a` and relies on two external librarie
 ### Download
 `FPKriSten` is maintained as a GitHub repository at the address https://github.com/roccaa/FPKriSten.git
 
-It can be obtained either by typing the shell command:
+It can be obtained either with the command:
 
 $ git clone https://github.com/roccaa/FPKriSten.git
 
 ### Benchmarks
 
-In the Matlab command window, add to the path the `Cplex`( available in the  `matlab/x86-64_linux/` directory if you are with linux 64 ) and `Yalmip` librairies.
+In the Matlab command window, add to the path the `Cplex` (available in the `matlab/x86-64_linux/` directory if you are with linux 64 ) as well as the path to the `Yalmip` toolbox.
 
-Add to the path the directories `Round_error` and `SBSOS` (dot not use `SBSOS` from another source as the code files as been modified in this present version):
+Add to the path the two directories `Round_error` and `SBSOS` (dot not use `SBSOS` from another source as the code files as been modified in this present version):
 
 	$ addpath(genpath(Round_error/)); addpath(genpath(SBSOS/));
 	
-Go to `Round_error` directory and build the models:
+Go to the `Round_error` directory and build the models:
 
 	$ cd Round_error/;
 	$ build_all;
 
-Return to `Round_error/` as the current directory has changed, and execute the `do_all` script:
+Come back to the `Round_error/` directory and execute the `do_all` script:
 
 	$ cd ..
-	$ do_all:
+	$ do_all;
 	
 Show the results summary:	
 
@@ -51,7 +51,7 @@ Show the results summary:
 
 ### Programs representation
 17
-`FPKriSten` executes a Matlab script file. This script is separated in two steps: 
+`FPKriSten` executes a Matlab script file specific to each program. Each script is separated in two steps: 
 18
 ​
 19
@@ -61,7 +61,7 @@ Show the results summary:
 21
 ​
 22
-(1) declare the program:
+(1) First you have to declare your program:
 23
 ​
 24
@@ -69,35 +69,35 @@ Show the results summary:
 25
 - `nvar` = the number of variables (the dimension of `x`)
 26
-- `name` = the name of the program to analyse
+- `name` = the name of your program
 27
 - `nparam` = the number of roundoff error variables (the dimension of `e`)
 28
-- `[str,vars]  = build_sdpvar(nvar,nparam);eval(str);vars = eval(vars);` this builds the variables with Yalmip
+- `[str,vars]  = build_sdpvar(nvar,nparam);eval(str);vars = eval(vars);`: this builds the variables with Yalmip
 29
 - `q` =  the polynomial `l(x,e)`. You have to use symbols `x_i` with `i=1,...,nvar` for `x` and `x_j` with `j = nvar+1,...,nvar+nparam`  for `e`
 30
 - interval=[[one line for each interval of `x` and `e` (in order)]]
 31
-- `qsdp = box_norm(q,vars,interval);` this scales the initial problem
+- `qsdp = box_norm(q,vars,interval);`: this scales the initial problem
 32
-- `[powers,coefficients] = getexponentbase(qsdp,vars);` this performs polynomial operations with Yalmip
+- `[powers,coefficients] = getexponentbase(qsdp,vars);`: this performs polynomial operations with Yalmip
 33
-- `p = str2double(sdisplay(powers));` this creates the power matrix
+- `p = str2double(sdisplay(powers));`: this creates the power matrix
 34
-- `c = str2double(sdisplay(coefficients));` this creates the coefficients matrix
+- `c = str2double(sdisplay(coefficients));`: this creates the coefficients matrix
 35
 - `n = nvar+nparam;` = total number of variables `(x,e)`
 36
-- `[I,J] = build_box_sparcity(nvar,nparam);` = creates I and J, related to the specific sparsity pattern of the roundoff error problem;
+- `[I,J] = build_box_sparcity(nvar,nparam);`: this creates I and J, related to the specific sparsity pattern of the roundoff error problem;
 37
-- `system_info = [n complex_sparse];`: builds an option array (mandatory)
+- `system_info = [n complex_sparse];`: this builds an option array (mandatory)
 38
-- `G = create_unitBox(n);`: build a unit box (mandatory)
+- `G = create_unitBox(n);`: this builds a unit box (mandatory)
 39
 ​
 40
-Build the path and the model files (if you want):
+Then, you can build the path and the model files:
 41
 ​
 42
@@ -115,7 +115,7 @@ Build the path and the model files (if you want):
 48
         
 49
-(2) compute the roundoff error:
+(2) Eventually, you can compute the roundoff error:
 50
 ​
 51
