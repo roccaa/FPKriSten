@@ -20,53 +20,77 @@ ex: x1^3 + (3/4)*x1*x2^2
 ex: x1 = [-1 1] and x2 = [-2 2]
 
 ### Programs representation
-FPBern(a) handles input files with .ini extension (this is mandatory) with the following structure:
+`FPKriSten` is use in Matlab script files. The script is separated in two phases: 
 
- + OPTIONS
-- name = `name of the program`
-- precision = `machine precision as 2^(-precision)`
-- nbvars = `dimension of x`
-- nberrors = `dimension of e`
- + Programs
-- function = ` polynomials function with the operation +,*,- and ^ (and / in the coefficients)`
-- input_bl = `lower bounds of the input values`
-- input_bu = `upper bounds of the input values`
++ The building and parsing phase (done on separate script files for the benchmarks)
++ The computation of the roundoff error.
+
+PHASE1: Building
+
+(1) declare the system:
+
+- `complex_sparse = 0;` , currently not used but necessary to avoid error
+- `nvar` = number of variable `x`;
+- `name` = put the name of the program;
+- `nparam` = number of variable `e`;
+- `[str,vars]  = build_sdpvar(nvar,nparam);eval(str);vars = eval(vars);` build the variables with Yalmip parser
+- `q` = here put the `l(x,e)` program with the symbols `x_i` with i=1,...,nvar for `x`, and `x_j` with j = nvar+1,...,nvar+nparam for `e`;
+- interval=[[one line for each interval of `x` then `e`]];
+- `qsdp = box_norm(q,vars,interval);` compute the normalization
+- `[powers,coefficients] = getexponentbase(qsdp,vars);` polynomial parsing with Yalmip
+- `p = str2double(sdisplay(powers));` power matrix
+- `c = str2double(sdisplay(coefficients));` coefficients matrix
+- `n = nvar+nparam;` total number of variables `(x,e)`
+- `[I,J] = build_box_sparcity(nvar,nparam);`I and J sparcity pattern specific to this problem
+- `system_info = [n complex_sparse];` build an option arry (mandatory)
+- `G = create_unitBox(n);` build a unit box (mandatory)
+- Build the path and the models files (if you want)
+
+(2) compute the roundoff error:
+
+- read the file product by the above script with `[F,I,J ,G ,n,d,k] = read_examples(files_names,"MAX");` (/!\be careful: if you want to work on a single file you need to do the conversion from array to cells as done in `read_examples`)
+- execute [ bound,build_time,solving_time ] = solve_examples( F,G,I,J,d,k,tag);, where `bound` will be the roundoff error proportionnal to `epsilon` the machine precision.
+
 
 ## Installation instructions
 ### Prerequisites
-FPBern(a) is implemented in C++. Thus, a C++ compiler is required.
-FPBern(a) was tested on Ubuntu 14.04 LTS.
+FPKriSten is implemented in `Matlab2015a`, thus it is not guaranteed it will work on a previous (or later) version.
 
-Moreover, FPBern(a) relies on three external libraries:
-- GiNaC (GiNaC is Not a CAS), for the symbolic manipulation of polynomials
-- GLPK (GNU Linear Programming Kit), for solving linear programming problems
-- boost (boost/property_tree/ptree.hpp and boost/property_tree/ini_parser.hpp and boost/lexical_cast.hpp)
+Moreover, FPKriSten relies on two external libraries for Matlab:
 
-###Download
-FPBern(a) is maintained as a GitHub repository at the address https://github.com/roccaa/FPBern.git
+- `Yalmip` for the poynomial parsing (Free)
+- `Cplex` IBM LP solver (Free for Academics) (added for a short period of time in the repository for linux 64)
+
+
+### Download
+`FPKriSten` is maintained as a GitHub repository at the address https://github.com/roccaa/FPKriSten.git
 
 It can be obtained either by typing the shell command:
 
-$ git clone https://github.com/roccaa/FPBern.git
+$ git clone https://github.com/roccaa/FPKriSten.git
 
-or by downloading the ZIP archive at https://github.com/roccaa/FPBern.git
+or by downloading the ZIP archive at https://github.com/roccaa/FPKriSten.git
 
-###Installation
-To install from the source type:
+### Benchmarks
 
-	$ make
+In the matlab command window, add to path the `Cplex`( in the  `matlab/x86-64_linux` directory if you are with linux 64 ) and `Yalmip` librairies.
 
-This creates a binary called FPBern in /bin
+Add to path the directories `Round_error` and `SBSOS` (dot not `SBSOS` from another source as the code files as been modified in this present version):
 
-To run FPBern, move to /bin and launch the binary with the command:
+	$ addpath(genpath(Round_error/));addpath(genpath(SBSOS/));
+	
+Go to `Round_error` directory and build the models:
 
-	$ ./FPBern file_name1 file_name2 ...    (without the .ini)
+	$ cd Round_error/;
+	$ build_all;
 
-To run a set of benchmarks, launch the command
+Return to `Round_error/` as the current directory has changed, and execute the `do_all` script:
 
- 	$ ./FPBern rigidbody1 rigidbody2 kepler0 kepler1 kepler2 sineTaylor sineOrder3 sqroot himmilbeau
+	$ cd ..
+	$ do_all:
+	
+Show the results summary:	
 
-
-
+	$ result
 
 
