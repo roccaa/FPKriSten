@@ -25,9 +25,7 @@ ex: x1 = [-1 1] and x2 = [-2 2]
 + The building and parsing phase (done on separate script files for the benchmarks)
 + The computation of the roundoff error.
 
-PHASE1: Building
-
-(1) declare the system:
+(1) declare the program:
 
 - `complex_sparse = 0;` , currently not used but necessary to avoid error
 - `nvar` = number of variable `x`;
