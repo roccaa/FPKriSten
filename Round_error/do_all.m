@@ -1,6 +1,6 @@
 tag = 'MAX'
 
-files_names = {'simple_test';'rigidBody1';'rigidBody2';'kepler0real';'kepler1';'kepler2';'sineTaylor';'sineOrder3';'sqroot';'himmilbeau'};
+files_names = {'simple_test';'rigidBody1';'rigidBody2';'kepler0real';'kepler1';'kepler2';'sineTaylor';'sineOrder3';'sqroot';'himmilbeau';'schwefel';'magnetism';'caprasse'};
 
 result = cell(5 ,size(files_names,1)+1);
 result{1,1} = 'Name  ';
