@@ -23,7 +23,7 @@ FPKriSten has been tested with `Matlab2015a` and relies on two external librarie
 ### Download
 `FPKriSten` is maintained as a GitHub repository at the address https://github.com/roccaa/FPKriSten.git
 
-It can be obtained either with the command:
+It can be obtained with the command:
 
 $ git clone https://github.com/roccaa/FPKriSten.git
 
