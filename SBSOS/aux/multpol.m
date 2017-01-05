@@ -1,5 +1,5 @@
 %%***************************************************************%%
-% This function builds the product r of to polynomials p and q.   %
+% This function builds the product r of two polynomials p and q.   %
 % The resulting polynomial r is not simplified, i.e. r is likely  %
 % to have several entries for the same monomial.                  %
 %%***************************************************************%%
