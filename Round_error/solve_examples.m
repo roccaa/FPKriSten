@@ -84,18 +84,21 @@ oA_op = sparse(oA_op);
 FLOAT_MIN  = -realmax
 lb = [sparse(nlambda,1);repmat(FLOAT_MIN,size(oA,2)-nlambda,1)];
 
+options = cplexoptimset('Algorithm','interior-point','Display','off');
 
 disp('CPLEX solving (MAX)');
 tic 
-[x fval] = cplexlp(oC,[],[],oA,ob,lb,[],[]);
+[x fval exitflag] = cplexlp(oC,[],[],oA,ob,lb,[],[],options);
 ts1 = toc
+exitflag
 fval;
 bound1 = -(-fval+constant)
 
 disp('CPLEX solving (MIN)');
 tic 
-[x fval] = cplexlp(oC,[],[],oA_op,ob_op,lb,[],[]);
+[x fval exitflag] = cplexlp(oC,[],[],oA_op,ob_op,lb,[],[],options);
 ts2 = toc
+exitflag
 total_time  = build_time + ts1 + ts2
 solving_time = ts1 +ts2;
 fval;

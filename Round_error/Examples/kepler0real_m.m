@@ -20,7 +20,9 @@ c = str2double(sdisplay(coefficients));
 
 n = nvar+nparam;
 [I,J] = build_box_sparcity(nvar,nparam);
-system_info = [n complex_sparse];
+cstr = []
+n_semialg =  size(cstr,1);
+system_info = [n complex_sparse n_semialg];
 G = create_unitBox(n);
 
 mkdir('kepler0real');

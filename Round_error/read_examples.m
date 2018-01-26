@@ -1,6 +1,6 @@
 %% READ_EXAMPLES :: read a given example files ('name'+'_i,j,s,c,p.dat') to produce 
 %  The needed information to solve it (F,I,J,G,n,d,k)
-%  The tag 'min' or 'max' slect the choice of F for the minimization or the
+%  The tag 'MIN' or 'MAX' slect the choice of F for the minimization or the
 %  maximization problem
 function [ F,I,J ,G ,n,d,k ] = read_examples(name,tag)
 
@@ -26,6 +26,7 @@ s = strcat('Examples/',name,'/',name,'_s.dat');
 info = dlmread(s);
 n = info(1);
 complex_sparse = info(2);
+n_semialg = info(3);
 
 %% I
 if(complex_sparse)
@@ -63,7 +64,23 @@ for m=1 : size(g,1);
     G(m,:) = {g(m,:)};
 end
 
+fin = size(g,1);
 
+%% Rebuilding the semi-algebraic constraints
+for m=1:n_semialg
+   g = [];
+   s = strcat('Examples/',name,'/',name,'_p_Gsa_',num2str(m),'.dat');
+   ploc = dlmread(s);
+   s = strcat('Examples/',name,'/',name,'_c_Gsa_',num2str(m),'.dat');
+   cloc = dlmread(s) ; 
+   for nm=1:length(cloc)
+      lg = [ploc(nm,:) cloc(nm)]
+      g = [g;lg]
+   end  
+   G(fin+m,:) =  {g};
+end    
+
+G
 
 
 end
