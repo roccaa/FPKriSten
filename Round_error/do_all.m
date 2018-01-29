@@ -12,12 +12,21 @@ result{2,1} = 'Roundofferror  ';
 result{3,1} = 'Building time  ';
 result{4,1} = 'Solving time  ';
 result{5,1} = 'Total time  ';
+nb_times = 5;
 for i=1:size(files_names,1)
     [F,I,J ,G ,n,d,k] = read_examples(files_names{i},tag);
-    [ bound,build_time,solving_time ] = solve_examples( F,G,I,J,d,k,tag);
-    result{1,i+1} = files_names{i};
-    result{2,i+1} = bound*2^(-53);
-    result{3,i+1} = build_time;
-    result{4,i+1} = solving_time;
-    result{5,i+1} = solving_time+build_time;
+    tb = 0;
+    ts = 0;
+    tt = 0;
+    for j=1:nb_times
+        [bound,build_time,solving_time ] = solve_examples( F,G,I,J,d,k,tag);
+        tb = tb + build_time;
+        ts = ts + solving_time;
+        tt = tt + solving_time+build_time;
+    end
+        result{1,i+1} = files_names{i};
+        result{2,i+1} = bound*2^(-53);
+        result{3,i+1} = tb/5;
+        result{4,i+1} = ts/5;
+        result{5,i+1} = tt/5;
 end
